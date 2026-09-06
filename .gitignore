@@ -3,10 +3,22 @@
 **/target/
 **/*.rs.bk
 *.pdb
+*.dSYM/
 
 # Cargo.lock is tracked on purpose: the version rubric treats the exercise
 # toolchain and crate versions as part of the public interface, so exercises
 # must stay reproducible. Do not ignore it.
+
+# Executables from compiling a single file with `rustc` directly, e.g.
+# `rustc hello_world.rs`. They land next to the source instead of under
+# `target/`, and Git has no pattern for "extensionless executable", so each
+# one is listed as a chapter adds it.
+Chapter01/hello_world
+*.exe
+
+# Coverage and profiling data (`-C instrument-coverage`, `cargo bench`)
+*.profraw
+*.profdata
 
 # macOS
 .DS_Store

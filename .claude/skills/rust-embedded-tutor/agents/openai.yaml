@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Embedded Tutor"
+  short_description: "Rust로 SBC와 MCU를 안전하게 배우는 임베디드 튜터"
+  default_prompt: "$rust-embedded-tutor로 이 장비에서 시작할 안전한 실습을 안내해 주세요."
+
+policy:
+  allow_implicit_invocation: true

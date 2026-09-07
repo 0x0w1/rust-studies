@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Tutor"
+  short_description: "Rust 개념과 컴파일 오류를 함께 배우는 학습 튜터"
+  default_prompt: "$rust-tutor로 현재 진도에 맞춰 이 Rust 개념을 설명해 주세요."
+
+policy:
+  allow_implicit_invocation: true

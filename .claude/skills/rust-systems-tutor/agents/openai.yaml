@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Systems Tutor"
+  short_description: "Rust 시스템·OS 프로그래밍을 관찰부터 배우는 튜터"
+  default_prompt: "$rust-systems-tutor로 이 시스템 개념을 그림과 실험으로 설명해 주세요."
+
+policy:
+  allow_implicit_invocation: true

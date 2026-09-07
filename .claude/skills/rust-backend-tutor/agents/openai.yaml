@@ -1,0 +1,7 @@
+interface:
+  display_name: "Rust Backend Tutor"
+  short_description: "Rust 서버와 비동기 생태계를 단계별로 배우는 튜터"
+  default_prompt: "$rust-backend-tutor로 이 백엔드 주제의 배경과 실습 순서를 알려 주세요."
+
+policy:
+  allow_implicit_invocation: true

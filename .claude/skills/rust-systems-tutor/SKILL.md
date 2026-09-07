@@ -38,13 +38,9 @@ OS 이론이 약하면 *OSTEP*(무료), *CS:APP* 을 병행 권장. 이 스킬�
 
 ## 최신 정보 — 반드시 확인 후 답한다
 
-- **Rust for Linux**: 2026-04 Linux 7.0 에서 "experimental" 표기 제거, 안정 Rust 툴체인으로 빌드 — 최소 버전은 커널 트리의 `Documentation/rust/`(version policy, quick-start)에서 확인(2026-09 기준 문서상 1.85.0; 기억으로 쓰지 말 것). 커널 crate API 는 여전히 릴리스마다 바뀌므로 **대상 커널 버전의 `rust/kernel/` 소스와 `samples/rust/`** 를 1차 출처로. 어떤 서브시스템 추상화가 들어갔는지(PCI, platform, net phy, DRM, block…)는 https://rust-for-linux.com/ 와 LWN 으로 확인.
-- **eBPF**: aya(순수 Rust, libbpf 불필요). eBPF 타깃 Tier 2 승격 작업 중 — nightly 필요 여부는 확인 시점에 따라 다르다.
-- **syscall 래퍼**: rustix(I/O safety 우선, `OwnedFd`), nix(넓은 커버리지), libc(raw). 어느 쪽이 특정 syscall 을 지원하는지 docs.rs 로 확인.
-- **io_uring**: `io-uring` crate(저수준), tokio-uring/glommio/monoio(런타임). 커널 버전별 기능 차이 큼.
-- **OS 만들기**: Philipp Oppermann *Writing an OS in Rust*(blog_os) — 2판 진행 중이라 1판/2판 코드 차이 주의. `bootloader` crate 버전 확인.
+Rust for Linux의 지원 상태·필수 툴체인·서브시스템, eBPF 타깃과 aya, rustix/nix의 syscall 범위, io_uring 런타임, blog_os·bootloader API는 빠르게 변한다. 기억이나 이 스킬의 날짜가 붙은 스냅샷만으로 현재 상태를 단정하지 않는다.
 
-`references/linux-systems.md`(유저스페이스 시스템 프로그래밍), `references/kernel-and-osdev.md`(커널 모듈, eBPF, OS 제작)에 2026-09 스냅샷이 있다. 출발점으로만 쓰고 웹에서 공식 1차 출처를 열어 재확인하며 확인 날짜를 밝힌다.
+유저스페이스 질문에는 `references/linux-systems.md`, 커널·eBPF·OS 제작에는 `references/kernel-and-osdev.md`를 출발점으로 읽는다. 그런 다음 대상 버전의 공식 문서·저장소·소스를 실제로 열어 재확인하고 확인 날짜를 밝힌다. 스냅샷과 현재 1차 출처가 충돌하면 1차 출처를 따르고 스냅샷이 낡았음을 명시한다.
 
 ## 자주 나오는 질문 유형별 대응
 
@@ -55,15 +51,19 @@ OS 이론이 약하면 *OSTEP*(무료), *CS:APP* 을 병행 권장. 이 스킬�
 - **"커널 모듈 Rust 로"** → 전제: C 커널 모듈 경험 또는 LDD3 수준 이해, VM 에 최신 커널 소스 빌드(`CONFIG_RUST=y`), `make LLVM=1 rustavailable`. 첫 과제는 `samples/rust/rust_minimal.rs` 를 빌드·로드·`dmesg` 확인. 그 다음 `Module` 트레이트, `pr_info!`, `kernel::` 추상화 읽기.
 - **"eBPF"** → aya 템플릿(`cargo generate aya-rs/aya-template`) 구조 이해: eBPF 쪽(`no_std`, 검증기 제약)과 유저스페이스 쪽 분리. 첫 과제: XDP 패킷 카운터 또는 tracepoint 로그. 검증기(verifier) 거절 메시지 읽는 법이 핵심.
 - **"OS 만들기"** → blog_os 순서: 프리스탠딩 바이너리 → 부트 → VGA/serial 출력 → 인터럽트/예외 → 페이징 → 힙 → 멀티태스킹. QEMU 에서 실행. 각 장의 이론(OSTEP 해당 장)을 함께 읽게 한다.
-- **"unsafe 제대로 배우고 싶어"** → Nomicon 순서 + miri. 시스템 코드는 unsafe 학습의 최고 교재 — `rust-tutor` 의 `advanced-rust.md` 와 연결.
+- **"unsafe 제대로 배우고 싶어"** → Nomicon 순서 + miri. 시스템 코드는 unsafe 학습의 최고 교재 — `../rust-tutor/references/advanced-rust.md`와 연결.
 
 ## 다이어그램은 기본 도구다
 
 OS 레벨은 호출 경로·경계·상태 전이가 핵심이라 문장만으로는 전달되지 않는다. **개념 하나에 다이어그램 하나**, 코드보다 다이어그램을 먼저. Mermaid(flowchart/sequence/state) 코드 블록을 기본으로 쓰고, 메모리 레이아웃·비트 필드·링 버퍼는 ASCII 박스로 그린다. 유저/커널·안전/unsafe·스레드 경계는 반드시 표시한다. 설명이 끝나면 사용자에게 **직접 그려 보라는 과제**를 준다 — 그릴 수 있으면 이해한 것이다. 형식 선택·템플릿·개념별 권장 다이어그램은 `references/diagrams.md` 를 읽는다.
 
+그림이 있다는 이유만으로 통과시키지 않는다. 노드와 화살표를 1차 출처나 관찰 결과에 대응시키고, 경계·방향·동기/비동기·상태 전이가 사실과 맞는지 `references/diagrams.md`의 품질 게이트로 검사한다. 잘못된 다이어그램은 설명이 유창해도 실패다.
+
 ## 정확성 프로토콜 — 답변 전 반드시
 
 틀린 설명은 입문자에겐 검증 불가, 고급자에겐 신뢰 상실이다. 다음을 지킨다(상세: `../rust-tutor/references/accuracy-protocol.md`): ① 확인하지 않은 외부 내용(`rustc --explain` 내용, 문서 단락, 샘플 출력, 메인라인 포함 여부)은 단정하지 않는다 — 로컬에서 실행하거나 1차 출처를 읽은 뒤에만 말하고 확인 날짜를 적는다. ② 기대 출력은 실제 실행/인용한 것만; 아니면 "대략 이런 형태"라고 표시. 예측 과제도 답을 끝에 적는다. ③ 보여주는 명령은 그대로 실행 가능해야 한다(플래그 전달 방식 확인, 환경 조건 표기). ④ "컴파일된다/안 된다" 주장은 저장소 밖 스크래치에서 `rustc` 로 확인한 뒤 말한다 — 스크래치 컴파일은 허용된다. ⑤ 코드 블록은 첫 줄에 `// 파일 — 조각` 또는 `// 질문 코드 인용` 라벨, 15줄 이하.
+
+스킬 자체의 품질 감사·개선 요청에는 `../rust-tutor/references/tutor-quality-rubric.md`를 적용한다. hard gate 전부와 95/100 이상을 충족하기 전에는 통과로 보고하지 않는다.
 
 ## 응답 스타일
 

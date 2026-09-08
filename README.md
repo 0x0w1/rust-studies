@@ -12,6 +12,7 @@ Rust를 공부하며 실행한 예제와 배운 내용을 날짜별로 기록하
 cargo run --manifest-path Chapter01/hello_cargo/Cargo.toml
 cargo run --manifest-path Chapter01/guessing_game/Cargo.toml
 cargo run --manifest-path Chapter03/variables/Cargo.toml
+cargo run --manifest-path Chapter03/array_variables/Cargo.toml
 ```
 
 단일 파일 예제는 `rustc Chapter01/hello_world.rs`로 컴파일할 수 있습니다.
@@ -19,7 +20,7 @@ cargo run --manifest-path Chapter03/variables/Cargo.toml
 ## 학습 목차
 
 - [`Chapter01`](Chapter01): Rust 프로그램 실행, Cargo 프로젝트, 숫자 맞히기 게임
-- [`Chapter03`](Chapter03): 변수 shadowing과 스코프
+- [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입
 
 ## Daily Learning Changelog
 
@@ -27,6 +28,8 @@ cargo run --manifest-path Chapter03/variables/Cargo.toml
 
 ### 2026-09-08
 
+- [`Chapter03/array_variables`](Chapter03/array_variables)에서 배열 `[1, 2, 3, 4, 5]`의 원소를 표준 입력으로 받은 인덱스로 접근하고, 범위를 벗어난 인덱스가 컴파일이 아닌 실행 시점 패닉으로 잡히는 것을 확인했습니다.
+- [`Chapter03/variables`](Chapter03/variables)에서 튜플 `(i32, f64, u8)`을 `let (x, y, z) = tup;`으로 구조 분해하고, `tup.0` 같은 인덱스 접근으로도 같은 값을 읽었습니다.
 - [`Chapter03/variables`](Chapter03/variables)에서 같은 이름을 `let`으로 다시 바인딩하는 shadowing을 실습했습니다.
 - 중첩 스코프의 `x`가 바깥 스코프의 `x`와 독립적으로 계산되고, 스코프가 끝나면 바깥 값이 다시 보이는 것을 확인했습니다.
 - Rust 언어·백엔드·임베디드·시스템 학습을 지원하는 tutor 스킬을 Claude Code와 Codex에서 함께 사용할 수 있도록 정리했습니다.

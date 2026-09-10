@@ -14,6 +14,7 @@ cargo run --manifest-path Chapter01/guessing_game/Cargo.toml
 cargo run --manifest-path Chapter03/variables/Cargo.toml
 cargo run --manifest-path Chapter03/array_variables/Cargo.toml
 cargo run --manifest-path Chapter03/functions/Cargo.toml
+cargo run --manifest-path Chapter03/if_else/Cargo.toml
 ```
 
 단일 파일 예제는 `rustc Chapter01/hello_world.rs`로 컴파일할 수 있습니다.
@@ -21,7 +22,7 @@ cargo run --manifest-path Chapter03/functions/Cargo.toml
 ## 학습 목차
 
 - [`Chapter01`](Chapter01): Rust 프로그램 실행, Cargo 프로젝트, 숫자 맞히기 게임
-- [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입, 함수와 표현식·구문의 차이
+- [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입, 함수와 표현식·구문의 차이, `if`·`loop`·`while`·`for` 제어 흐름
 
 ## Daily Learning Changelog
 
@@ -33,6 +34,9 @@ cargo run --manifest-path Chapter03/functions/Cargo.toml
 - 블록 `{ let x = 3; x + 1 }`이 마지막 표현식의 값을 갖는 표현식이라는 것을 확인하고, `x + 1` 뒤에 세미콜론을 붙이면 구문(statement)으로 바뀌어 블록 값이 `()`가 되면서 `println!`에서 `` `()` doesn't implement `std::fmt::Display` `` 오류가 나는 이유를 정리했습니다.
 - `fn five() -> i32 { 5 }`와 `fn plus_one(x: i32) -> i32 { x + 1 }`처럼 마지막 표현식이 반환값이 되는 함수를 작성하고, `5;`처럼 세미콜론을 붙이면 `mismatched types: expected i32, found ()` 오류가 나는 것을 확인했습니다.
 - C/C++의 세미콜론은 문장 종결자일 뿐이지만 Rust의 세미콜론은 표현식의 값을 버려 구문으로 만들기 때문에 유무에 따라 타입이 달라진다는 차이를 비교했습니다.
+- [`Chapter03/if_else`](Chapter03/if_else)에서 `if`/`else` 분기와 `let number = if condition { 5 } else { 6 };`처럼 `if`를 표현식으로 써서 값을 바인딩하는 방법을 실습하고, 분기 타입이 다르면(`5`와 `"six"`) 컴파일 오류가 나는 것을 확인했습니다.
+- `loop`에서 `break counter * 2;`로 반복문 자체가 값을 반환하게 하고, `'counting_up` 라벨로 중첩 반복문에서 바깥 `loop`를 한 번에 빠져나오는 것을 확인했습니다.
+- `while`로 카운트다운을 작성하고, 배열 순회를 `while`과 인덱스로 구현한 뒤 `for element in a`로 바꿔 비교했으며, `(1..4).rev()` 범위를 `for`로 역순 순회했습니다.
 
 ### 2026-09-08
 

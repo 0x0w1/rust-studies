@@ -13,6 +13,7 @@ cargo run --manifest-path Chapter01/hello_cargo/Cargo.toml
 cargo run --manifest-path Chapter01/guessing_game/Cargo.toml
 cargo run --manifest-path Chapter03/variables/Cargo.toml
 cargo run --manifest-path Chapter03/array_variables/Cargo.toml
+cargo run --manifest-path Chapter03/functions/Cargo.toml
 ```
 
 단일 파일 예제는 `rustc Chapter01/hello_world.rs`로 컴파일할 수 있습니다.
@@ -20,11 +21,18 @@ cargo run --manifest-path Chapter03/array_variables/Cargo.toml
 ## 학습 목차
 
 - [`Chapter01`](Chapter01): Rust 프로그램 실행, Cargo 프로젝트, 숫자 맞히기 게임
-- [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입
+- [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입, 함수와 표현식·구문의 차이
 
 ## Daily Learning Changelog
 
 최신 기록이 위에 오도록 관리합니다.
+
+### 2026-09-10
+
+- [`Chapter03/functions`](Chapter03/functions)에서 매개변수가 있는 함수 `print_labeled_measurement(value: i32, unit_label: char)`를 정의하고 호출했습니다.
+- 블록 `{ let x = 3; x + 1 }`이 마지막 표현식의 값을 갖는 표현식이라는 것을 확인하고, `x + 1` 뒤에 세미콜론을 붙이면 구문(statement)으로 바뀌어 블록 값이 `()`가 되면서 `println!`에서 `` `()` doesn't implement `std::fmt::Display` `` 오류가 나는 이유를 정리했습니다.
+- `fn five() -> i32 { 5 }`와 `fn plus_one(x: i32) -> i32 { x + 1 }`처럼 마지막 표현식이 반환값이 되는 함수를 작성하고, `5;`처럼 세미콜론을 붙이면 `mismatched types: expected i32, found ()` 오류가 나는 것을 확인했습니다.
+- C/C++의 세미콜론은 문장 종결자일 뿐이지만 Rust의 세미콜론은 표현식의 값을 버려 구문으로 만들기 때문에 유무에 따라 타입이 달라진다는 차이를 비교했습니다.
 
 ### 2026-09-08
 

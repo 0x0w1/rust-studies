@@ -15,6 +15,8 @@ cargo run --manifest-path Chapter03/variables/Cargo.toml
 cargo run --manifest-path Chapter03/array_variables/Cargo.toml
 cargo run --manifest-path Chapter03/functions/Cargo.toml
 cargo run --manifest-path Chapter03/if_else/Cargo.toml
+cargo run --manifest-path Chapter04/owner/Cargo.toml
+cargo run --manifest-path Chapter04/references/Cargo.toml
 ```
 
 단일 파일 예제는 `rustc Chapter01/hello_world.rs`로 컴파일할 수 있습니다.
@@ -23,10 +25,21 @@ cargo run --manifest-path Chapter03/if_else/Cargo.toml
 
 - [`Chapter01`](Chapter01): Rust 프로그램 실행, Cargo 프로젝트, 숫자 맞히기 게임
 - [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입, 함수와 표현식·구문의 차이, `if`·`loop`·`while`·`for` 제어 흐름
+- [`Chapter04`](Chapter04): 스택과 힙, 소유권 이동과 `clone`, 함수 호출과 반환에서의 소유권, 참조자와 빌림, 가변 참조자
 
 ## Daily Learning Changelog
 
 최신 기록이 위에 오도록 관리합니다.
+
+### 2026-09-15
+
+- [`Chapter04/owner`](Chapter04/owner)에서 `let s = String::from("hello");`와 `let mut s = ...`의 차이를 확인하고, 불변 바인딩에 `push_str`을 호출하면 `` error[E0596]: cannot borrow `s` as mutable, as it is not declared as mutable ``가, 바꾸지 않는 값을 `mut`으로 선언하면 `warning: variable does not need to be mutable`가 나오는 것을 확인했습니다.
+- `let s2 = s1;`이 힙 데이터를 복사하지 않고 소유권만 옮기는 이동(move)이라는 것을 확인하고, 이동 후 원본을 쓰면 `error[E0382]: borrow of moved value`가 나는 것을 주석으로 남겼습니다.
+- `s3.clone()`으로 깊은 복사를 만든 뒤 `s3.as_ptr()`과 `s4.as_ptr()`을 `{:p}`로 출력해 힙 주소가 서로 다른 것을 눈으로 확인했습니다. 이동은 힙 주소가 그대로라는 점과 비교했습니다.
+- `gives_ownership`과 `takes_and_gives_back`으로 함수 호출·반환에서 소유권이 어떻게 옮겨 다니는지 실습하고, 함수로 넘긴 `s2`를 다시 쓰면 `` error[E0382]: borrow of moved value: `s2` ``가 나는 것을 확인했습니다.
+- [`Chapter04/references`](Chapter04/references)에서 `calculate_length(&s1)`로 소유권을 넘기지 않고 길이만 읽어, 튜플로 값을 되돌려 받던 패턴이 필요 없어지는 것을 확인했습니다.
+- `change(&mut s2)`로 빌린 값을 변경하려면 원본이 `mut`이어야 하고 파라미터 타입도 `&mut String`이어야 한다는 것을 확인했습니다.
+- 러스트의 `Copy`·`Clone`·이동을 Python의 얕은 복사·깊은 복사, Java·Kotlin의 참조 복사와 대조해 정리했습니다.
 
 ### 2026-09-10
 

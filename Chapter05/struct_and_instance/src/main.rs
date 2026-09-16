@@ -40,6 +40,10 @@ fn main() {
 
     // Point와 Color에서 각각 doesn't implement `Debug`
     // println!("origin: {:?}, black: {:?}", origin, black);
+
+    let mut user4 = build_user_str("test@gmail.com", "iAmABoy");
+    println!("user4.email: {}", user4.email);
+    println!("user4.username: {}", user4.username);
 }
 
 fn build_user(email: String, username: String) -> User {
@@ -47,6 +51,15 @@ fn build_user(email: String, username: String) -> User {
         active: true,
         username: username,
         email: email,
+        sign_in_count: 1,
+    }
+}
+
+fn build_user_str(email: &str, username: &str) -> User {
+    User {
+        active: true,
+        username: username.to_string(),
+        email: email.to_string(),
         sign_in_count: 1,
     }
 }

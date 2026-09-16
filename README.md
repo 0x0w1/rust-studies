@@ -18,6 +18,7 @@ cargo run --manifest-path Chapter03/if_else/Cargo.toml
 cargo run --manifest-path Chapter04/owner/Cargo.toml
 cargo run --manifest-path Chapter04/references/Cargo.toml
 cargo run --manifest-path Chapter04/string_slice/Cargo.toml
+cargo run --manifest-path Chapter05/struct_and_instance/Cargo.toml
 ```
 
 단일 파일 예제는 `rustc Chapter01/hello_world.rs`로 컴파일할 수 있습니다.
@@ -27,6 +28,7 @@ cargo run --manifest-path Chapter04/string_slice/Cargo.toml
 - [`Chapter01`](Chapter01): Rust 프로그램 실행, Cargo 프로젝트, 숫자 맞히기 게임
 - [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입, 함수와 표현식·구문의 차이, `if`·`loop`·`while`·`for` 제어 흐름
 - [`Chapter04`](Chapter04): 스택과 힙, 소유권 이동과 `clone`, 함수 호출과 반환에서의 소유권, 참조자와 빌림, 가변 참조자, 문자열 슬라이스
+- [`Chapter05`](Chapter05): 구조체 정의와 인스턴스화, 필드 초기화 축약법, 구조체 업데이트 문법, 튜플 구조체
 
 ## Daily Learning Changelog
 
@@ -34,6 +36,10 @@ cargo run --manifest-path Chapter04/string_slice/Cargo.toml
 
 ### 2026-09-16
 
+- [`Chapter05/struct_and_instance`](Chapter05/struct_and_instance)에서 `User` 구조체를 정의하고 인스턴스를 만든 뒤 점 표기법으로 필드를 읽고 `user1.email`을 다시 대입했으며, 가변성이 필드 단위가 아니라 인스턴스 전체에 걸린다는 것을 확인했습니다.
+- `build_user`로 인스턴스를 만들면서 필드 초기화 축약법을 쓸 수 있는 자리를 확인하고, 구조체 업데이트 문법 `..user2`로 `user3`를 만들었습니다.
+- 튜플 구조체 `Color(i32, i32, i32)`와 `Point(i32, i32, i32)`를 정의하고, 구성이 같아도 서로 다른 타입이라는 점을 확인했습니다.
+- 튜플 구조체를 `println!("{:?}", origin)`으로 출력하면 `` `Point` doesn't implement `Debug` ``가 나는 것을 확인하고, `Debug`가 자동으로 생기지 않는 트레이트라서 `#[derive(Debug)]`로 구현을 붙여야 한다는 것을 정리했습니다.
 - [`Chapter04/string_slice`](Chapter04/string_slice)에서 `first_word`가 `usize` 인덱스 대신 `&str` 슬라이스를 반환하도록 작성하고, 반환값이 원본을 빌린 상태로 나오기 때문에 원본과 어긋날 수 없다는 것을 확인했습니다.
 - 인덱스를 반환하던 버전은 `s.clear()` 뒤에도 값이 그대로 남아 무효해지는 반면, 슬라이스 버전은 같은 코드가 `` error[E0502]: cannot borrow `s` as mutable because it is also borrowed as immutable ``로 컴파일 단계에서 막히는 것을 주석으로 남겼습니다.
 - 매개변수를 `&String`이 아니라 `&str`로 두면 `&my_string[0..6]` 같은 슬라이스, `&my_string`처럼 역참조 강제가 적용되는 `&String`, `my_string_literal` 같은 문자열 리터럴을 모두 같은 함수로 받을 수 있다는 것을 여섯 가지 호출로 확인했습니다.

@@ -19,6 +19,8 @@ cargo run --manifest-path Chapter04/owner/Cargo.toml
 cargo run --manifest-path Chapter04/references/Cargo.toml
 cargo run --manifest-path Chapter04/string_slice/Cargo.toml
 cargo run --manifest-path Chapter05/struct_and_instance/Cargo.toml
+cargo run --manifest-path Chapter05/rectangle/Cargo.toml
+cargo run --manifest-path Chapter05/rectangle_impl/Cargo.toml
 ```
 
 단일 파일 예제는 `rustc Chapter01/hello_world.rs`로 컴파일할 수 있습니다.
@@ -28,11 +30,21 @@ cargo run --manifest-path Chapter05/struct_and_instance/Cargo.toml
 - [`Chapter01`](Chapter01): Rust 프로그램 실행, Cargo 프로젝트, 숫자 맞히기 게임
 - [`Chapter03`](Chapter03): 변수 shadowing과 스코프, 튜플과 배열 같은 복합 타입, 함수와 표현식·구문의 차이, `if`·`loop`·`while`·`for` 제어 흐름
 - [`Chapter04`](Chapter04): 스택과 힙, 소유권 이동과 `clone`, 함수 호출과 반환에서의 소유권, 참조자와 빌림, 가변 참조자, 문자열 슬라이스
-- [`Chapter05`](Chapter05): 구조체 정의와 인스턴스화, 필드 초기화 축약법, 구조체 업데이트 문법, 튜플 구조체, `&str` 매개변수로 구조체 만들기
+- [`Chapter05`](Chapter05): 구조체 정의와 인스턴스화, 필드 초기화 축약법, 구조체 업데이트 문법, 튜플 구조체, `&str` 매개변수로 구조체 만들기, 구조체로 사각형 넓이 계산하기, `#[derive(Debug)]` 출력, `impl` 블록과 메서드 문법
 
 ## Daily Learning Changelog
 
 최신 기록이 위에 오도록 관리합니다.
+
+### 2026-09-21
+
+- [`Chapter05/rectangle`](Chapter05/rectangle)에서 너비와 높이를 각각 넘기던 `area` 함수를 `Rectangle` 구조체 하나를 받는 형태로 바꿔, 서로 묶여 있는 값이 타입 하나로 드러나는 것을 확인했습니다.
+- `area(&rect1)`처럼 참조자로 받아 호출한 뒤에도 `main`이 `rect1`의 소유권을 그대로 가지고 있어 계속 쓸 수 있다는 것을 확인했습니다.
+- `#[derive(Debug)]`를 붙인 뒤 `{:?}`로 한 줄 출력, `{:#?}`로 필드마다 줄을 바꾼 출력을 나란히 비교했습니다.
+- [`Chapter05/rectangle_impl`](Chapter05/rectangle_impl)에서 `area`를 `impl Rectangle` 블록 안으로 옮겨 메서드로 만들고, `rect1.area()`처럼 호출하는 메서드 문법을 실습했습니다.
+- 메서드의 첫 매개변수가 항상 `self`이고 `&self`로 받으면 읽기만 하므로 인스턴스를 소비하지 않는다는 것을 확인했습니다.
+- 필드와 이름이 같은 `get_width` 게터를 만들어, 필드 접근과 메서드 호출이 `rect1.width`와 `rect1.get_width()`로 구분된다는 것을 확인했습니다.
+- `can_hold(&self, other: &Rectangle) -> bool`로 다른 인스턴스를 빌려 받아 크기를 비교하고, `rect1`이 `rect2`는 담을 수 있지만 `rect3`는 담을 수 없다는 결과를 확인했습니다.
 
 ### 2026-09-16
 
